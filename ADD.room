@@ -4,12 +4,8 @@ HOME_SCORE =
 (ORT * 0.3) +
 (HOME * 0.4) +
 (5D + 6D + 7D)
+
 WINNER_CODE = SHA256(HOME_SCORE + Kandidat_Name)
 WINNER_NAME = Kandidat_Name
-Gewinner‑Name
-
-Gewinner‑Code
-
-Gewinner‑Score
-
-Gewinner‑Story
+WINNER_SCORE = HOME_SCORE
+WINNER_STORY = "Ergebnis basierend auf allen HOME‑Dimensionen."
