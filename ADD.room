@@ -9,3 +9,4 @@ WINNER_CODE = SHA256(HOME_SCORE + Kandidat_Name)
 WINNER_NAME = Kandidat_Name
 WINNER_SCORE = HOME_SCORE
 WINNER_STORY = "Ergebnis basierend auf allen HOME‑Dimensionen."
+HOME_SCORE =
