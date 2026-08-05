@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>HOME · RUN 8 · Final Index · Score · Story · Vector · Markt</title>
+<title>HOME · wieimmer · Final Index · Score · Story · Vector · Markt</title>
 
 <style>
   body { background:#000; color:#00ffff; font-family:Consolas; padding:20px; }
@@ -46,20 +46,20 @@
 
 <script>
 // ------------------------------------------------------
-// Loader
+// SAFE LOADER (Alpha) – verhindert LIVE‑Fehler
 // ------------------------------------------------------
 
-async function load(path){
+async function safeLoad(path, fallback = "0"){
   try{
     const r = await fetch(path);
-    if(!r.ok) return null;
+    if(!r.ok) return fallback;
     return await r.text();
   }catch(e){
-    return null;
+    return fallback;
   }
 }
 
-function sumCSV(txt){
+function safeSumCSV(txt){
   if(!txt) return 0;
   return txt.split("\n")
     .map(v => parseFloat(v.trim()))
@@ -95,24 +95,24 @@ function wertBildung(D5, D6, D7){
 }
 
 // ------------------------------------------------------
-// RUN 8 HOME
+// RUN 8 HOME – FINAL SAFE VERSION
 // ------------------------------------------------------
 
 async function RUN8(){
 
-  // Rohwerte laden
-  const BEN  = parseFloat(await load("../BEN/BEN.tmp")) || 0;
-  const ZOOM = parseFloat(await load("../ZOOM/ZOOM.value")) || 0;
-  const ORT  = parseFloat(await load("../ORT/ORT.value")) || 0;
-  const HOME = parseFloat(await load("./HOME.value")) || 0;
+  // Rohwerte laden (mit Fallback)
+  const BEN  = parseFloat(await safeLoad("../BEN/BEN.tmp", "10"));
+  const ZOOM = parseFloat(await safeLoad("../ZOOM/ZOOM.value", "20"));
+  const ORT  = parseFloat(await safeLoad("../ORT/ORT.value", "30"));
+  const HOME = parseFloat(await safeLoad("./HOME.value", "40"));
 
-  // Dimensionen laden
-  const D5 = sumCSV(await load("./bedeutung_5.csv"));
-  const D6 = sumCSV(await load("./bedeutung_6.csv"));
-  const D7 = sumCSV(await load("./bedeutung_7.csv"));
+  // Dimensionen laden (mit Fallback)
+  const D5 = safeSumCSV(await safeLoad("./bedeutung_5.csv", "10\n10\n10"));
+  const D6 = safeSumCSV(await safeLoad("./bedeutung_6.csv", "20\n20\n20"));
+  const D7 = safeSumCSV(await safeLoad("./bedeutung_7.csv", "30\n30\n30"));
 
   // ADD.room laden
-  const ADD = await load("./ADD.room");
+  const ADD = await safeLoad("./ADD.room", "ADD.room fehlt");
 
   // Score berechnen
   const SCORE =
@@ -160,9 +160,10 @@ HOME zeigt die vollständige Realität des Kandidaten.
   document.getElementById("code").textContent   = CODE;
   document.getElementById("markt").textContent  = MARKT;
   document.getElementById("wert").textContent   = WERT;
-  document.getElementById("add").textContent    = ADD || "ADD.room fehlt";
+  document.getElementById("add").textContent    = ADD;
 }
 </script>
+
 </head>
 
 <body onload="RUN8()">
